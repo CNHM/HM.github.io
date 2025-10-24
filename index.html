@@ -179,7 +179,7 @@
 <body>
     <div class="particles" id="particles"></div>
     
-    <h1>互动按钮中心</h1>
+    <h1>黄某脚本中心作者页面</h1>
     
     <div class="button-container">
         <button class="btn btn-qq" id="qqBtn">
@@ -223,7 +223,7 @@
                 const y = e.clientY - rect.top - size / 2;
                 
                 ripple.classList.add('ripple');
-                ripple.style.width = rippleスタイル.height = `${size}px`;
+                ripple.style.width = ripple.style.height = `${size}px`;
                 ripple.style.left = `${x}px`;
                 ripple.style.top = `${y}px`;
                 
@@ -235,14 +235,14 @@
             });
         });
 
-        // QQ按钮跳转
+        // QQ按钮跳转到资料页
         document.getElementById('qqBtn').addEventListener('click', function() {
-            // 打开QQ聊天（需安装QQ客户端）
-            window.location.href = 'tencent://message/?uin=391108721&Site=&Menu=yes';
+            // 尝试打开QQ APP资料页（优先）
+            window.location.href = 'mqqapi://card/show_pslcard?src_type=internal&version=1&uin=391108721';
             
-            // 备用方案：打开网页版
+            // 备用方案：打开QZone网页版个人空间（资料页）
             setTimeout(() => {
-                window.open('https://wpa.qq.com/msgrd?v=3&uin=391108721&site=qq&menu=yes', '_blank');
+                window.open('https://user.qzone.qq.com/391108721', '_blank');
             }, 500);
         });
 

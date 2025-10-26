@@ -1,232 +1,194 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YCFNYQXJVZ"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-YCFNYQXJVZ');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>忍者注入器下载</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-    <!-- test ads) -->
-    <script async src="https://js.wpadmngr.com/static/adManager.js" data-admpid="385787"></script>
-    <!-- Google ads) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7928798025462545"
-     crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>GitHub Raw URL 跳转器</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a1a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
         }
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.6s ease-out;
         }
-        .content-wrapper {
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            margin-bottom: 1.5rem;
+            color: #4a5568;
+            font-size: 1.8rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
             position: relative;
-            z-index: 1;
         }
-        .file-item:hover {
-            background-color: rgba(55, 65, 81, 0.5);
+
+        input[type="url"] {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
         }
-        .ad-card {
-            background-color: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(55, 65, 81, 0.7);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        input[type="url"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-        .ad-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+
+        input[type="url"]:hover {
+            border-color: #cbd5e0;
         }
-        .glow-button-small {
-            box-shadow: 0 0 3px #3b82f6, 0 0 10px #3b82f6;
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            animation: pulse 2s infinite;
         }
-        .glow-button-small:hover {
-            box-shadow: 0 0 5px #60a5fa, 0 0 15px #60a5fa;
+
+        @keyframes pulse {
+            0% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.5); }
+            100% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
         }
-        .text-glow {
-            text-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .example {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #718096;
+            font-style: italic;
+        }
+
+        .alert {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: #fed7d7;
+            color: #c53030;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
-<body class="text-gray-200">
-
-    <div id="particles-js"></div>
-
-    <div class="content-wrapper flex flex-col min-h-screen">
-        <div class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-            <div class="w-full">
-                <div class="flex flex-col lg:flex-row gap-8">
-                    <main class="w-full lg:w-4/5 order-1 flex flex-col items-center">
-                        <a href="index.html" class="glow-button-small inline-flex items-center justify-center bg-blue-600 text-white font-bold py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 mb-8">
-                            Home
-                        </a>
-                        <h1 class="text-4xl md:text-5xl font-extrabold text-white text-glow mb-8 text-center">安卓更新</h1>
-                        <div class="w-full max-w-4xl mx-auto">
-                            <div class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-gray-700">
-                                <h2 class="text-2xl font-bold mb-6 text-white text-center">Latest Android Version</h2>
-                                <div id="latest-apk-container" class="space-y-4">
-                                    <p class="text-gray-400 text-center">加载中...</p>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-
-                    <aside class="w-full lg:w-1/5 order-2">
-                         <h2 class="text-xl font-semibold mb-4 pb-2 text-white text-glow border-b border-gray-700">Advertisements</h2>
-                        <div id="right-ad-container" class="space-y-4"></div>
-                    </aside>
-                </div>
-            </div>
+<body>
+    <div class="container">
+        <h1>GitHub Raw URL 跳转器</h1>
+        <div class="input-group">
+            <input type="url" id="rawUrl" placeholder="输入 GitHub Raw URL，例如：https://raw.githubusercontent.com/CNHM/asg/refs/heads/main/wind%20ui" />
+            <div class="example">示例：https://raw.githubusercontent.com/CNHM/asg/refs/heads/main/wind%20ui</div>
         </div>
-        <div>
-            <!-- AC -->
-<div id="awn-z10542178"></div> <!-- native -->
-<script type="text/javascript">
-    aclib.runVideoSlider({
-        zoneId: '10495922',
-    });
-</script>
-<div>
-    <script type="text/javascript">
-        aclib.runBanner({
-            zoneId: '10542170',
-        });
-    </script>
-</div>
+        <button class="button" onclick="handleJump()">确认跳转</button>
+        <div id="alert" class="alert"></div>
+    </div>
 
-<script data-cfasync="false" type="text/javascript">
-    var adcashMacros = {sub1: 'delta'};
-    var zoneNativeSett={container:"awn",baseUrl:"discovernative.com/script/native.php",r:[10542178]};
-    var urls={cdnUrls:["//superonclick.com","//geniusonclick.com"],cdnIndex:0,rand:Math.random(),events:["click","mousedown","touchstart"],useFixer:!0,onlyFixer:!1,fixerBeneath:!1};function acPrefetch(e){var t,n=document.createElement("link");t=void 0!==document.head?document.head:document.getElementsByTagName("head")[0],n.rel="dns-prefetch",n.href=e,t.appendChild(n);var r=document.createElement("link");r.rel="preconnect",r.href=e,t.appendChild(r)}var nativeInit=new function(){var a="",i=Math.floor(1e12*Math.random()),o=Math.floor(1e12*Math.random()),t=window.location.protocol,c={_0:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){for(var t,n,r,a,i,o,c="",s=0;s<e.length;)a=(t=e.charCodeAt(s++))>>2,t=(3&t)<<4|(n=e.charCodeAt(s++))>>4,i=(15&n)<<2|(r=e.charCodeAt(s++))>>6,o=63&r,isNaN(n)?i=o=64:isNaN(r)&&(o=64),c=c+this._0.charAt(a)+this._0.charAt(t)+this._0.charAt(i)+this._0.charAt(o);return c}};this.init=function(){e()};var e=function(){var e=document.createElement("script");e.setAttribute("data-cfasync",!1),e.src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",e.onerror=function(){!0,r(),n()},e.onload=function(){nativeForPublishers.init()},nativeForPublishers.attachScript(e)},n=function(){""!==a?s(i,t):setTimeout(n,250)},r=function(){var t=new(window.RTCPeerConnection||window.mozRTCPeerConnection||window.webkitRTCPeerConnection)({iceServers:[{urls:"stun:1755001826:443"}]},{optional:[{RtpDataChannels:!0}]});t.onicecandidate=function(e){!e.candidate||e.candidate&&-1==e.candidate.candidate.indexOf("srflx")||!(e=/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(e.candidate.candidate)[1])||e.match(/^(192\.168\.|169\.254\.|10\.|172\.(1[6-9]|2\d|3[01]))/)||e.match(/^[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7}$/)||(a=e)},t.createDataChannel(""),t.createOffer(function(e){t.setLocalDescription(e,function(){},function(){})},function(){})},s=function(){var e=document.createElement("script");e.setAttribute("data-cfasync",!1),e.src=t+"//"+a+"/"+c.encode(i+"/"+(i+5))+".js",e.onload=function(){for(var e in zoneNativeSett.r)d(zoneNativeSett.r[e])},nativeForPublishers.attachScript(e)},d=function(e){var t="jsonp"+Math.round(1000001*Math.random()),n=[i,parseInt(e)+i,o,"callback="+t],r="http://"+a+"/"+c.encode(n.join("/"));new native_request(r,e,t).jsonp()}},nativeForPublishers=new function(){var n=this,e=Math.random();n.getRand=function(){return e},this.getNativeRender=function(){if(!n.nativeRenderLoaded){var e=document.createElement("script");e.setAttribute("data-cfasync","false"),e.src=urls.cdnUrls[urls.cdnIndex]+"/script/native_render.js",e.onerror=function(){throw new Error("cdnerr")},e.onload=function(){n.nativeRenderLoaded=!0},n.attachScript(e)}},this.getNativeResponse=function(){if(!n.nativeResponseLoaded){var e=document.createElement("script");e.setAttribute("data-cfasync","false"),e.src=urls.cdnUrls[urls.cdnIndex]+"/script/native_server.js",e.onerror=function(){throw new Error("cdnerr")},e.onload=function(){n.nativeResponseLoaded=!0},n.attachScript(e)}},this.attachScript=function(e){var t;void 0!==document.scripts&&(t=document.scripts[0]),void 0===t&&(t=document.getElementsByTagName("script")[0]),t.parentNode.insertBefore(e,t)},this.fetchCdnScripts=function(){if(urls.cdnIndex<urls.cdnUrls.length)try{n.getNativeRender(),n.getNativeResponse()}catch(e){urls.cdnIndex++,n.fetchCdnScripts()}},this.scriptsLoaded=function(){if(n.nativeResponseLoaded&&n.nativeRenderLoaded){var e=[];for(zone in zoneNativeSett.r)document.getElementById(zoneNativeSett.container+"-z"+zoneNativeSett.r[zone])&&(e[zoneNativeSett.r[zone]]=new native_request("//"+zoneNativeSett.baseUrl+"?nwpsv=1&",zoneNativeSett.r[zone]),e[zoneNativeSett.r[zone]].build());for(var t in e)e[t].jsonp("callback",(e[t],function(e,t){setupAd(zoneNativeSett.container+"-z"+t,e)}))}else setTimeout(n.scriptsLoaded,250)},this.init=function(){var e;if(n.insertBotTrapLink(),0===window.location.href.indexOf("file://"))for(e=0;e<urls.cdnUrls.length;e++)0===urls.cdnUrls[e].indexOf("//")&&(urls.cdnUrls[e]="http:"+urls.cdnUrls[e]);for(e=0;e<urls.cdnUrls.length;e++)acPrefetch(urls.cdnUrls[e]);n.fetchCdnScripts(),n.scriptsLoaded()},this.insertBotTrapLink=function(){var e=document.createElement("a");e.href=window.location.protocol+"//discovernative.com/al/visit.php?al=1,4",e.style.display="none",e.style.visibility="hidden",e.style.position="relative",e.style.left="-1000px",e.style.top="-1000px",e.style.color="#fff",e.link='<a href="http://discovernative.com/al/visit.php?al=1,5"></a>',e.innerHTML="",document.body.appendChild(e)}};nativeInit.init();
-</script>
-<a href="https://discovernative.com/al/visit.php?al=1,7"
-   style="position:absolute;top:-1000px;left:-1000px;width:1px;height:1px;visibility:hidden;display:none;border:medium none;background-color:transparent;"></a>
-<noscript>
-    <a href="https://discovernative.com/al/visit.php?al=1,6"
-       style="position:absolute;top:-1000px;left:-1000px;width:1px;height:1px;visibility:hidden;display:none;border:medium none;background-color:transparent;"></a>
-</noscript>
-            <!-- AC -->
-            <!-- test ads) -->
-            <div data-banner-id="1469050"></div>
-    </div>
-        <footer class="text-center py-6 text-gray-500 relative z-10">
-            <p>&copy; 2025 黄某脚本.享有所有权.</p>
-        </footer>
-    </div>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    </div>
     <script>
-        particlesJS('particles-js', {"particles":{"number":{"value":80,"density":{"enable":true,"value_area":800}},"color":{"value":"#3b82f6"},"shape":{"type":"circle",},"opacity":{"value":0.5,"random":false,},"size":{"value":3,"random":true,},"line_linked":{"enable":true,"distance":150,"color":"#ffffff","opacity":0.2,"width":1},"move":{"enable":true,"speed":2,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false,}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"repulse":{"distance":100,"duration":0.4},"push":{"particles_nb":4},}},"retina_detect":true});
+        function handleJump() {
+            const rawUrl = document.getElementById('rawUrl').value.trim();
+            const alertDiv = document.getElementById('alert');
 
-        function formatBytes(bytes, decimals = 2) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const dm = decimals < 0 ? 0 : decimals;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-        }
-
-        function renderFileList(container, files) {
-            container.innerHTML = '';
-            if (!files || files.length === 0) {
-                container.innerHTML = `<p class="text-gray-400 text-center">No versions available.</p>`;
+            if (!rawUrl) {
+                showAlert('请输入有效的 GitHub Raw URL');
                 return;
             }
-            files.forEach(file => {
-                const fileElement = document.createElement('div');
-                fileElement.className = 'file-item flex items-center justify-between p-4 border border-gray-700 rounded-lg transition-all duration-300';
-                const iconHtml = `<img src="https://delta.filenetwork.vip/logo/android.png" alt="Android APK File" class="w-8 h-8 mr-4 shrink-0">`;
-                fileElement.innerHTML = `
-                    <div class="flex items-center min-w-0">
-                        ${iconHtml}
-                        <div class="truncate">
-                            <h3 class="font-semibold text-lg text-gray-100 truncate">${file.name}</h3>
-                            <p class="text-sm text-gray-400">Size: ${formatBytes(file.size)}</p>
-                            <p class="text-sm text-gray-500 mt-1">Modified: ${file.last_modified}</p>
-                        </div>
-                    </div>
-                    <a href="file/${file.name}" download class="glow-button-small inline-flex items-center justify-center bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ml-4 shrink-0">
-                        Download
-                    </a>`;
-                container.appendChild(fileElement);
-            });
-        }
 
-        async function fetchFiles() {
-            const latestApkContainer = document.getElementById('latest-apk-container');
-            try {
-                const url = new URL('get_files.php', window.location.href);
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
-                renderFileList(latestApkContainer, data.latest_apk);
-            } catch (error) {
-                console.error("Could not fetch file list:", error);
-                const errorMessage = '<p class="text-red-400 text-center">Error loading files. Please check the server script and path.</p>';
-                latestApkContainer.innerHTML = errorMessage;
+            // 解析 URL
+            const url = new URL(rawUrl);
+            if (url.hostname !== 'raw.githubusercontent.com') {
+                showAlert('请输入有效的 GitHub Raw URL（必须以 raw.githubusercontent.com 开头）');
+                return;
+            }
+
+            const pathParts = url.pathname.split('/').filter(part => part.length > 0);
+            if (pathParts.length < 2) {
+                showAlert('URL 格式无效，无法提取仓库信息');
+                return;
+            }
+
+            const username = pathParts[0];
+            const repo = pathParts[1];
+            const githubUrl = `https://github.com/${username}/${repo}`;
+
+            // 确认跳转
+            if (confirm(`确认跳转到 GitHub 仓库：\n${githubUrl}`)) {
+                window.open(githubUrl, '_blank');
+                alertDiv.classList.remove('show');
             }
         }
 
-        function renderAds(container, ads) {
-            if (!container) return;
-            container.innerHTML = '';
-            if (ads && Array.isArray(ads) && ads.length > 0) {
-                ads.forEach(ad => {
-                    const adElement = document.createElement('div');
-                    adElement.className = 'ad-card p-4 rounded-lg shadow-md';
-                    adElement.innerHTML = `
-                        <a href="${ad.clickout_url}" target="_blank" rel="noopener noreferrer" class="block">
-                            <img src="${ad.thumbnail_url}" alt="${ad.title}" class="w-full h-32 object-cover rounded-md mb-3" onerror="this.onerror=null;this.src='https://placehold.co/300x200/0a0a1a/9ca3af?text=Ad+Image';">
-                            <h4 class="font-bold text-md text-white">${ad.title}</h4>
-                            <p class="text-sm text-gray-400 mt-1 truncate">${ad.description}</p>
-                            <span class="block text-center mt-3 bg-blue-600 text-white text-sm font-semibold py-2 px-3 rounded-lg hover:bg-blue-700 transition-colors">${ad.call_to_action}</span>
-                        </a>`;
-                    container.appendChild(adElement);
-                });
-            } else {
-                container.innerHTML = '<p class="text-gray-400 text-center">No ads to display.</p>';
+        function showAlert(message) {
+            const alertDiv = document.getElementById('alert');
+            alertDiv.textContent = message;
+            alertDiv.classList.add('show');
+            setTimeout(() => {
+                alertDiv.classList.remove('show');
+            }, 3000);
+        }
+
+        // 按 Enter 键触发
+        document.getElementById('rawUrl').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleJump();
             }
-        }
-
-        window.handleAds = function(response) {
-            const rightContainer = document.getElementById('right-ad-container');
-            const ads = response.ads || response;
-            renderAds(rightContainer, ads);
-        };
-
-        function loadAdScript(keyword, callbackName, adCount) {
-            const existingScript = document.getElementById('lv-ads');
-            if (existingScript) existingScript.remove();
-            const script = document.createElement('script');
-            script.src = 'https://integrate.linkvertise.com/serp-script.js';
-            script.async = true;
-            script.id = 'lv-ads';
-            script.setAttribute('data-integration-id', '3034');
-            script.setAttribute('data-ad-number', adCount.toString());
-            script.setAttribute('data-keyword', keyword);
-            script.setAttribute('data-jsonp', callbackName);
-            document.head.appendChild(script);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchFiles();
-            setInterval(fetchFiles, 10000);
-            loadAdScript('roblox, gaming', 'handleAds', 3);
         });
     </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"37085d92d5354d2481e2130a93ce323c","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
-</html>
+    </html>

@@ -350,10 +350,10 @@
         <!-- Raw URL Tab -->
         <div id="raw" class="tab-content active">
             <div class="input-group">
-                <input type="url" id="rawUrl" placeholder="输入 GitHub Raw URL，例如：https://raw.githubusercontent.com/CNHM/asg/refs/heads/main/wind%20ui" />
-                <div class="example">示例：https://raw.githubusercontent.com/CNHM/asg/refs/heads/main/wind%20ui</div>
+                <input type="url" id="rawUrl" placeholder="输入GitHub Raw URL />
+                <div class="example">示例：https://raw.githubusercontent.com/用户名字/仓库/refs/heads/main/文件名</div>
             </div>
-            <button class="button" onclick="parseRawUrl()">解析 URL</button>
+            <button class="button" onclick="parseRawUrl()">解析URL</button>
             <div id="rawOutput" class="output"></div>
             <div id="confirmUi" class="confirm-ui"></div>
         </div>
@@ -361,7 +361,7 @@
         <!-- ASCII Tab -->
         <div id="ascii" class="tab-content">
             <div class="input-group">
-                <textarea id="asciiInput" placeholder="输入 ASCII 编码的 URL 或原 URL 或 loadstring(game:HttpGet('URL'))()，例如：\104\116\116\112\115\58\47\47\114\97\119\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109\47\67\78\72\77\47\109\105\115\99\101\108\108\97\110\101\111\117\115\47\114\101\102\115\47\104\101\97\100\115\47\109\97\105\110\47\82\73\78\71\84\65\73\78\75\70\82\69\69\67\72\73\78\69\83\69 或 https://raw.githubusercontent.com/wefwef127382/inkgames.github.io/refs/heads/main/ringta.lua 或 loadstring(game:HttpGet('https://raw...'))()"></textarea>
+                <textarea id="asciiInput" placeholder="输入ASCII编码的URL,原URL或 loadstring(game:HttpGet('URL'))()"></textarea>
                 <div class="example">支持 ASCII 编码解析、原 URL 转 ASCII 或带 loadstring 的脚本解析</div>
             </div>
             <button class="button" onclick="handleAscii()">转换/解析</button>
@@ -709,4 +709,4 @@
         });
     </script>
 </body>
-    </html>
+</html>

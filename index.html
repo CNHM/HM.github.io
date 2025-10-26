@@ -109,25 +109,19 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             outline: none;
-            resize: vertical;
-            max-height: 150px;
-            overflow-y: auto;
-        }
-
-        /* 输入框超出显示三个点 */
-        input[type="url"] {
+            resize: none;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            display: block; /* 确保单行 */
+        }
+
+        input[type="url"] {
+            height: auto;
+            min-height: 60px;
         }
 
         textarea {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: block;
-            height: auto; /* 对于textarea，调整为单行模拟 */
+            height: 60px;
             min-height: 60px;
         }
 
@@ -185,6 +179,25 @@
             100% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
         }
 
+        .injector-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(72, 187, 120, 0.3);
+            margin: 0.5rem;
+            display: inline-block;
+        }
+
+        .injector-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(72, 187, 120, 0.4);
+        }
+
         .example {
             margin-top: 0.5rem;
             font-size: 0.9rem;
@@ -235,6 +248,19 @@
         .output a:hover {
             background: #667eea;
             color: white;
+        }
+
+        .injector-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .injector-list li {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .script-code {
@@ -318,6 +344,7 @@
         <div class="tabs">
             <button class="tab active" onclick="switchTab('raw')">Raw URL 解析</button>
             <button class="tab" onclick="switchTab('ascii')">ASCII 编码转换</button>
+            <button class="tab" onclick="switchTab('injectors')">注入器下载</button>
         </div>
 
         <!-- Raw URL Tab -->
@@ -334,11 +361,42 @@
         <!-- ASCII Tab -->
         <div id="ascii" class="tab-content">
             <div class="input-group">
-                <textarea id="asciiInput" rows="1" placeholder="输入 ASCII 编码的 URL 或原 URL 或 loadstring(game:HttpGet('URL'))()，例如：\104\116\116\112\115\58\47\47\114\97\119\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109\47\67\78\72\77\47\109\105\115\99\101\108\108\97\110\101\111\117\115\47\114\101\102\115\47\104\101\97\100\115\47\109\97\105\110\47\82\73\78\71\84\65\73\78\75\70\82\69\69\67\72\73\78\69\83\69 或 https://raw.githubusercontent.com/wefwef127382/inkgames.github.io/refs/heads/main/ringta.lua 或 loadstring(game:HttpGet('https://raw...'))()"></textarea>
+                <textarea id="asciiInput" placeholder="输入 ASCII 编码的 URL 或原 URL 或 loadstring(game:HttpGet('URL'))()，例如：\104\116\116\112\115\58\47\47\114\97\119\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109\47\67\78\72\77\47\109\105\115\99\101\108\108\97\110\101\111\117\115\47\114\101\102\115\47\104\101\97\100\115\47\109\97\105\110\47\82\73\78\71\84\65\73\78\75\70\82\69\69\67\72\73\78\69\83\69 或 https://raw.githubusercontent.com/wefwef127382/inkgames.github.io/refs/heads/main/ringta.lua 或 loadstring(game:HttpGet('https://raw...'))()"></textarea>
                 <div class="example">支持 ASCII 编码解析、原 URL 转 ASCII 或带 loadstring 的脚本解析</div>
             </div>
             <button class="button" onclick="handleAscii()">转换/解析</button>
             <div id="asciiOutput" class="output"></div>
+        </div>
+
+        <!-- Injectors Tab -->
+        <div id="injectors" class="tab-content">
+            <h3>注入器下载地址</h3>
+            <ul class="injector-list">
+                <li>
+                    <strong>Trigon</strong><br>
+                    <button class="injector-btn" onclick="jumpTo('https://trigonevo.com/android/')">下载 Trigon</button>
+                </li>
+                <li>
+                    <strong>Deltaexecuter (忍者注入器)</strong><br>
+                    <button class="injector-btn" onclick="jumpTo('https://delta.webfiles.pro/android.html')">下载 Deltaexecuter</button>
+                </li>
+                <li>
+                    <strong>Ronix</strong><br>
+                    <button class="injector-btn" onclick="jumpTo('https://wearedevs.net/d/Ronix')">下载 Ronix</button>
+                </li>
+                <li>
+                    <strong>Vegax</strong><br>
+                    <button class="injector-btn" onclick="jumpTo('https://github.com/1f0yt/community/releases/download/Vegax/Vega.X.apk')">下载 Vegax</button>
+                </li>
+                <li>
+                    <strong>Codex</strong><br>
+                    <button class="injector-btn" onclick="jumpTo('https://codex.lol/android')">下载 Codex</button>
+                </li>
+                <li>
+                    <strong>Krnl</strong><br>
+                    <button class="injector-btn" onclick="jumpTo('https://krnl.webfiles.pro/android.html')">下载 Krnl</button>
+                </li>
+            </ul>
         </div>
 
         <div id="alert" class="alert"></div>
@@ -354,6 +412,10 @@
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
+        }
+
+        function jumpTo(url) {
+            window.open(url, '_blank');
         }
 
         async function fetchBranches(owner, repo) {

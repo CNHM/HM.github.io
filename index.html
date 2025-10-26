@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Raw URL 跳转器</title>
+    <title>Roblox脚本生成与解析</title>
     <style>
         * {
             margin: 0;
@@ -27,7 +27,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             backdrop-filter: blur(10px);
             animation: fadeInUp 0.6s ease-out;
@@ -45,17 +45,61 @@
         }
 
         h1 {
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
             color: #4a5568;
-            font-size: 1.8rem;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            background: #f7fafc;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            color: #718096;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .input-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             position: relative;
         }
 
-        input[type="url"] {
+        input[type="url"], textarea {
             width: 100%;
             padding: 1rem 1.5rem;
             border: 2px solid #e2e8f0;
@@ -63,14 +107,15 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             outline: none;
+            resize: vertical;
         }
 
-        input[type="url"]:focus {
+        input[type="url"]:focus, textarea:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        input[type="url"]:hover {
+        input[type="url"]:hover, textarea:hover {
             border-color: #cbd5e0;
         }
 
@@ -84,13 +129,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            margin: 0.5rem;
             animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
-            50% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.5); }
-            100% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
         }
 
         .button:hover {
@@ -102,11 +142,88 @@
             transform: translateY(0);
         }
 
+        @keyframes pulse {
+            0% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.5); }
+            100% { box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+        }
+
         .example {
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             font-size: 0.9rem;
             color: #718096;
             font-style: italic;
+        }
+
+        .output {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 10px;
+            text-align: left;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .output.show {
+            display: block;
+        }
+
+        .output h3 {
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+        }
+
+        .output ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .output li {
+            margin: 0.5rem 0;
+        }
+
+        .output a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 5px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .output a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .script-code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: #38a169;
         }
 
         .alert {
@@ -123,34 +240,85 @@
             animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .confirm-ui {
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .confirm-ui.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .confirm-ui h3 {
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        .confirm-ui .button {
+            margin: 0.5rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>GitHub Raw URL 跳转器</h1>
-        <div class="input-group">
-            <input type="url" id="rawUrl" placeholder="输入 GitHub Raw URL，例如：https://raw.githubusercontent.com/CNHM/asg/refs/heads/main/wind%20ui" />
-            <div class="example">示例：https://raw.githubusercontent.com/CNHM/asg/refs/heads/main/wind%20ui</div>
+        <h1>Roblox脚本生成与解析</h1>
+        <div class="subtitle">黄某制作</div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('raw')">Raw URL 解析</button>
+            <button class="tab" onclick="switchTab('ascii')">ASCII 编码转换</button>
         </div>
-        <button class="button" onclick="handleJump()">确认跳转</button>
+
+        <!-- Raw URL Tab -->
+        <div id="raw" class="tab-content active">
+            <div class="input-group">
+                <input type="url" id="rawUrl" placeholder="输入 GitHub Raw URL，例如：https://raw.githubusercontent.com/CNHM/asg/refs/heads/main/wind%20ui" />
+                <div class="example">示例：https://raw.githubusercontent.com/CNHM/asg/refs/heads/main/wind%20ui</div>
+            </div>
+            <button class="button" onclick="parseRawUrl()">解析 URL</button>
+            <div id="rawOutput" class="output"></div>
+            <div id="confirmUi" class="confirm-ui"></div>
+        </div>
+
+        <!-- ASCII Tab -->
+        <div id="ascii" class="tab-content">
+            <div class="input-group">
+                <textarea id="asciiInput" rows="3" placeholder="输入 ASCII 编码的 URL 或原 URL，例如：\104\116\116\112\115\58\47\47\114\97\119\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109\47\67\78\72\77\47\109\105\115\99\101\108\108\97\110\101\111\117\115\47\114\101\102\115\47\104\101\97\100\115\47\109\97\105\110\47\82\73\78\71\84\65\73\78\75\70\82\69\69\67\72\73\78\69\83\69 或 https://raw.githubusercontent.com/wefwef127382/inkgames.github.io/refs/heads/main/ringta.lua"></textarea>
+                <div class="example">支持 ASCII 编码解析或原 URL 转 ASCII</div>
+            </div>
+            <button class="button" onclick="handleAscii()">转换/解析</button>
+            <div id="asciiOutput" class="output"></div>
+        </div>
+
         <div id="alert" class="alert"></div>
     </div>
 
     <script>
-        function handleJump() {
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function parseRawUrl() {
             const rawUrl = document.getElementById('rawUrl').value.trim();
             const alertDiv = document.getElementById('alert');
+            const outputDiv = document.getElementById('rawOutput');
+            const confirmUi = document.getElementById('confirmUi');
 
             if (!rawUrl) {
                 showAlert('请输入有效的 GitHub Raw URL');
                 return;
             }
 
-            // 解析 URL
             const url = new URL(rawUrl);
             if (url.hostname !== 'raw.githubusercontent.com') {
                 showAlert('请输入有效的 GitHub Raw URL（必须以 raw.githubusercontent.com 开头）');
@@ -167,11 +335,131 @@
             const repo = pathParts[1];
             const githubUrl = `https://github.com/${username}/${repo}`;
 
-            // 确认跳转
-            if (confirm(`确认跳转到 GitHub 仓库：\n${githubUrl}`)) {
-                window.open(githubUrl, '_blank');
-                alertDiv.classList.remove('show');
+            // 显示输出：仓库链接列表
+            outputDiv.innerHTML = `
+                <h3>解析结果：</h3>
+                <ul>
+                    <li><a href="${githubUrl}" target="_blank">仓库首页：${username}/${repo}</a></li>
+                </ul>
+            `;
+            outputDiv.classList.add('show');
+
+            // 生成 Roblox 脚本
+            const script = `loadstring(game:HttpGet("${rawUrl}"))()`;
+            outputDiv.innerHTML += `
+                <div class="script-code">
+                    <button class="copy-btn" onclick="copyToClipboard('${script}')">复制脚本</button>
+                    <pre>${script}</pre>
+                </div>
+            `;
+
+            // 生成确认 UI
+            confirmUi.innerHTML = `
+                <h3>确认跳转到仓库？</h3>
+                <button class="button" onclick="confirmJump('${githubUrl}')">是的，跳转</button>
+                <button class="button" style="background: #e53e3e;" onclick="cancelJump()">取消</button>
+            `;
+            confirmUi.classList.add('show');
+
+            alertDiv.classList.remove('show');
+        }
+
+        function confirmJump(githubUrl) {
+            window.open(githubUrl, '_blank');
+            document.getElementById('confirmUi').classList.remove('show');
+        }
+
+        function cancelJump() {
+            document.getElementById('confirmUi').classList.remove('show');
+        }
+
+        function handleAscii() {
+            const input = document.getElementById('asciiInput').value.trim();
+            const outputDiv = document.getElementById('asciiOutput');
+            const alertDiv = document.getElementById('alert');
+
+            if (!input) {
+                showAlert('请输入 URL 或 ASCII 编码');
+                return;
             }
+
+            let originalUrl, asciiStr;
+
+            // 检查是否是 ASCII 编码（以 \ 开头且包含数字）
+            if (input.startsWith('\\') && input.includes('\\1') || input.match(/\\(\d{1,3})/g)) {
+                // 解析 ASCII 到 URL
+                try {
+                    originalUrl = parseAsciiToUrl(input);
+                    asciiStr = input; // 已有的
+                } catch (e) {
+                    showAlert('无效的 ASCII 编码');
+                    return;
+                }
+                outputDiv.innerHTML = `
+                    <h3>ASCII 解析结果：</h3>
+                    <p>原 URL：${originalUrl}</p>
+                    <div class="script-code">
+                        <button class="copy-btn" onclick="copyToClipboard('${originalUrl}')">复制 URL</button>
+                        <pre>${originalUrl}</pre>
+                    </div>
+                `;
+            } else {
+                // 假设是原 URL，转为 ASCII
+                try {
+                    asciiStr = urlToAscii(input);
+                    originalUrl = input;
+                } catch (e) {
+                    showAlert('无效的 URL');
+                    return;
+                }
+                outputDiv.innerHTML = `
+                    <h3>URL 转 ASCII 结果：</h3>
+                    <p>原 URL：${originalUrl}</p>
+                    <p>ASCII 编码：${asciiStr}</p>
+                    <div class="script-code">
+                        <button class="copy-btn" onclick="copyToClipboard('${asciiStr}')">复制 ASCII</button>
+                        <pre>${asciiStr}</pre>
+                    </div>
+                `;
+            }
+
+            outputDiv.classList.add('show');
+            alertDiv.classList.remove('show');
+        }
+
+        function parseAsciiToUrl(asciiStr) {
+            // 移除多余的 \ 和解析
+            const matches = asciiStr.match(/\\(\d{1,3})/g);
+            if (!matches) throw new Error('Invalid ASCII');
+            let url = '';
+            for (let match of matches) {
+                const code = parseInt(match.slice(1));
+                url += String.fromCharCode(code);
+            }
+            return url;
+        }
+
+        function urlToAscii(url) {
+            let ascii = '';
+            for (let i = 0; i < url.length; i++) {
+                ascii += `\\${url.charCodeAt(i)}`;
+            }
+            return ascii;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showAlert('已复制到剪贴板！');
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showAlert('已复制到剪贴板！');
+            });
         }
 
         function showAlert(message) {
@@ -186,9 +474,15 @@
         // 按 Enter 键触发
         document.getElementById('rawUrl').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                handleJump();
+                parseRawUrl();
+            }
+        });
+
+        document.getElementById('asciiInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleAscii();
             }
         });
     </script>
 </body>
-    </html>
+</html>

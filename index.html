@@ -1,258 +1,232 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YCFNYQXJVZ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-YCFNYQXJVZ');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>炫酷按钮页面</title>
+    <title>忍者注入器下载</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+    <!-- test ads) -->
+    <script async src="https://js.wpadmngr.com/static/adManager.js" data-admpid="385787"></script>
+    <!-- Google ads) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7928798025462545"
+     crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            min-height: 100vh;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a1a;
         }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* 粒子背景 */
-        .particles {
-            position: absolute;
+        #particles-js {
+            position: fixed;
             width: 100%;
             height: 100%;
-            overflow: hidden;
             z-index: 0;
         }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float 6s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
-        }
-
-        h1 {
-            color: white;
-            font-size: 3rem;
-            margin-bottom: 3rem;
-            text-shadow: 0 0 20px rgba(0,0,0,0.3);
-            animation: titleGlow 2s ease-in-out infinite alternate;
-            z-index: 2;
-        }
-
-        @keyframes titleGlow {
-            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073; }
-            to { text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6; }
-        }
-
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            z-index: 2;
-        }
-
-        .btn {
-            position: relative;
-            padding: 1.2rem 3rem;
-            font-size: 1.3rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            outline: none;
-            min-width: 260px;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.7s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn span {
+        .content-wrapper {
             position: relative;
             z-index: 1;
         }
-
-        /* 第一个按钮 - 霓虹蓝紫渐变 */
-        .btn-qq {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            animation: pulse1 2s infinite;
+        .file-item:hover {
+            background-color: rgba(55, 65, 81, 0.5);
         }
-
-        .btn-qq:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(45deg, #764ba2, #667eea);
+        .ad-card {
+            background-color: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(55, 65, 81, 0.7);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        @keyframes pulse1 {
-            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(102, 126, 234, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+        .ad-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
         }
-
-        /* 第二个按钮 - 火焰橙红渐变 */
-        .btn-future {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            animation: pulse2 2.5s infinite;
+        .glow-button-small {
+            box-shadow: 0 0 3px #3b82f6, 0 0 10px #3b82f6;
         }
-
-        .btn-future:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.4);
-            background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+        .glow-button-small:hover {
+            box-shadow: 0 0 5px #60a5fa, 0 0 15px #60a5fa;
         }
-
-        @keyframes pulse2 {
-            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
-        }
-
-        .btn:active {
-            transform: translateY(-4px) scale(1.02);
-        }
-
-        /* 波纹效果 */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
-        }
-
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* 响应式 */
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; margin-bottom: 2rem; }
-            .btn { padding: 1rem 2rem; font-size: 1.1rem; min-width: 220px; }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
         }
     </style>
 </head>
-<body>
-    <div class="particles" id="particles"></div>
-    
-    <h1>黄某脚本中心作者页面</h1>
-    
-    <div class="button-container">
-        <button class="btn btn-qq" id="qqBtn">
-            <span>作者QQ</span>
-        </button>
-        
-        <button class="btn btn-future" id="futureBtn">
-            <span>敬请期待</span>
-        </button>
+<body class="text-gray-200">
+
+    <div id="particles-js"></div>
+
+    <div class="content-wrapper flex flex-col min-h-screen">
+        <div class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+            <div class="w-full">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <main class="w-full lg:w-4/5 order-1 flex flex-col items-center">
+                        <a href="index.html" class="glow-button-small inline-flex items-center justify-center bg-blue-600 text-white font-bold py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 mb-8">
+                            Home
+                        </a>
+                        <h1 class="text-4xl md:text-5xl font-extrabold text-white text-glow mb-8 text-center">安卓更新</h1>
+                        <div class="w-full max-w-4xl mx-auto">
+                            <div class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-gray-700">
+                                <h2 class="text-2xl font-bold mb-6 text-white text-center">Latest Android Version</h2>
+                                <div id="latest-apk-container" class="space-y-4">
+                                    <p class="text-gray-400 text-center">加载中...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    <aside class="w-full lg:w-1/5 order-2">
+                         <h2 class="text-xl font-semibold mb-4 pb-2 text-white text-glow border-b border-gray-700">Advertisements</h2>
+                        <div id="right-ad-container" class="space-y-4"></div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+        <div>
+            <!-- AC -->
+<div id="awn-z10542178"></div> <!-- native -->
+<script type="text/javascript">
+    aclib.runVideoSlider({
+        zoneId: '10495922',
+    });
+</script>
+<div>
+    <script type="text/javascript">
+        aclib.runBanner({
+            zoneId: '10542170',
+        });
+    </script>
+</div>
+
+<script data-cfasync="false" type="text/javascript">
+    var adcashMacros = {sub1: 'delta'};
+    var zoneNativeSett={container:"awn",baseUrl:"discovernative.com/script/native.php",r:[10542178]};
+    var urls={cdnUrls:["//superonclick.com","//geniusonclick.com"],cdnIndex:0,rand:Math.random(),events:["click","mousedown","touchstart"],useFixer:!0,onlyFixer:!1,fixerBeneath:!1};function acPrefetch(e){var t,n=document.createElement("link");t=void 0!==document.head?document.head:document.getElementsByTagName("head")[0],n.rel="dns-prefetch",n.href=e,t.appendChild(n);var r=document.createElement("link");r.rel="preconnect",r.href=e,t.appendChild(r)}var nativeInit=new function(){var a="",i=Math.floor(1e12*Math.random()),o=Math.floor(1e12*Math.random()),t=window.location.protocol,c={_0:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){for(var t,n,r,a,i,o,c="",s=0;s<e.length;)a=(t=e.charCodeAt(s++))>>2,t=(3&t)<<4|(n=e.charCodeAt(s++))>>4,i=(15&n)<<2|(r=e.charCodeAt(s++))>>6,o=63&r,isNaN(n)?i=o=64:isNaN(r)&&(o=64),c=c+this._0.charAt(a)+this._0.charAt(t)+this._0.charAt(i)+this._0.charAt(o);return c}};this.init=function(){e()};var e=function(){var e=document.createElement("script");e.setAttribute("data-cfasync",!1),e.src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",e.onerror=function(){!0,r(),n()},e.onload=function(){nativeForPublishers.init()},nativeForPublishers.attachScript(e)},n=function(){""!==a?s(i,t):setTimeout(n,250)},r=function(){var t=new(window.RTCPeerConnection||window.mozRTCPeerConnection||window.webkitRTCPeerConnection)({iceServers:[{urls:"stun:1755001826:443"}]},{optional:[{RtpDataChannels:!0}]});t.onicecandidate=function(e){!e.candidate||e.candidate&&-1==e.candidate.candidate.indexOf("srflx")||!(e=/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(e.candidate.candidate)[1])||e.match(/^(192\.168\.|169\.254\.|10\.|172\.(1[6-9]|2\d|3[01]))/)||e.match(/^[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7}$/)||(a=e)},t.createDataChannel(""),t.createOffer(function(e){t.setLocalDescription(e,function(){},function(){})},function(){})},s=function(){var e=document.createElement("script");e.setAttribute("data-cfasync",!1),e.src=t+"//"+a+"/"+c.encode(i+"/"+(i+5))+".js",e.onload=function(){for(var e in zoneNativeSett.r)d(zoneNativeSett.r[e])},nativeForPublishers.attachScript(e)},d=function(e){var t="jsonp"+Math.round(1000001*Math.random()),n=[i,parseInt(e)+i,o,"callback="+t],r="http://"+a+"/"+c.encode(n.join("/"));new native_request(r,e,t).jsonp()}},nativeForPublishers=new function(){var n=this,e=Math.random();n.getRand=function(){return e},this.getNativeRender=function(){if(!n.nativeRenderLoaded){var e=document.createElement("script");e.setAttribute("data-cfasync","false"),e.src=urls.cdnUrls[urls.cdnIndex]+"/script/native_render.js",e.onerror=function(){throw new Error("cdnerr")},e.onload=function(){n.nativeRenderLoaded=!0},n.attachScript(e)}},this.getNativeResponse=function(){if(!n.nativeResponseLoaded){var e=document.createElement("script");e.setAttribute("data-cfasync","false"),e.src=urls.cdnUrls[urls.cdnIndex]+"/script/native_server.js",e.onerror=function(){throw new Error("cdnerr")},e.onload=function(){n.nativeResponseLoaded=!0},n.attachScript(e)}},this.attachScript=function(e){var t;void 0!==document.scripts&&(t=document.scripts[0]),void 0===t&&(t=document.getElementsByTagName("script")[0]),t.parentNode.insertBefore(e,t)},this.fetchCdnScripts=function(){if(urls.cdnIndex<urls.cdnUrls.length)try{n.getNativeRender(),n.getNativeResponse()}catch(e){urls.cdnIndex++,n.fetchCdnScripts()}},this.scriptsLoaded=function(){if(n.nativeResponseLoaded&&n.nativeRenderLoaded){var e=[];for(zone in zoneNativeSett.r)document.getElementById(zoneNativeSett.container+"-z"+zoneNativeSett.r[zone])&&(e[zoneNativeSett.r[zone]]=new native_request("//"+zoneNativeSett.baseUrl+"?nwpsv=1&",zoneNativeSett.r[zone]),e[zoneNativeSett.r[zone]].build());for(var t in e)e[t].jsonp("callback",(e[t],function(e,t){setupAd(zoneNativeSett.container+"-z"+t,e)}))}else setTimeout(n.scriptsLoaded,250)},this.init=function(){var e;if(n.insertBotTrapLink(),0===window.location.href.indexOf("file://"))for(e=0;e<urls.cdnUrls.length;e++)0===urls.cdnUrls[e].indexOf("//")&&(urls.cdnUrls[e]="http:"+urls.cdnUrls[e]);for(e=0;e<urls.cdnUrls.length;e++)acPrefetch(urls.cdnUrls[e]);n.fetchCdnScripts(),n.scriptsLoaded()},this.insertBotTrapLink=function(){var e=document.createElement("a");e.href=window.location.protocol+"//discovernative.com/al/visit.php?al=1,4",e.style.display="none",e.style.visibility="hidden",e.style.position="relative",e.style.left="-1000px",e.style.top="-1000px",e.style.color="#fff",e.link='<a href="http://discovernative.com/al/visit.php?al=1,5"></a>',e.innerHTML="",document.body.appendChild(e)}};nativeInit.init();
+</script>
+<a href="https://discovernative.com/al/visit.php?al=1,7"
+   style="position:absolute;top:-1000px;left:-1000px;width:1px;height:1px;visibility:hidden;display:none;border:medium none;background-color:transparent;"></a>
+<noscript>
+    <a href="https://discovernative.com/al/visit.php?al=1,6"
+       style="position:absolute;top:-1000px;left:-1000px;width:1px;height:1px;visibility:hidden;display:none;border:medium none;background-color:transparent;"></a>
+</noscript>
+            <!-- AC -->
+            <!-- test ads) -->
+            <div data-banner-id="1469050"></div>
     </div>
-
+        <footer class="text-center py-6 text-gray-500 relative z-10">
+            <p>&copy; 2025 黄某脚本.享有所有权.</p>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    </div>
     <script>
-        // 创建粒子背景
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+        particlesJS('particles-js', {"particles":{"number":{"value":80,"density":{"enable":true,"value_area":800}},"color":{"value":"#3b82f6"},"shape":{"type":"circle",},"opacity":{"value":0.5,"random":false,},"size":{"value":3,"random":true,},"line_linked":{"enable":true,"distance":150,"color":"#ffffff","opacity":0.2,"width":1},"move":{"enable":true,"speed":2,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false,}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"repulse":{"distance":100,"duration":0.4},"push":{"particles_nb":4},}},"retina_detect":true});
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                const size = Math.random() * 5 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-                particle.style.animationDelay = `${Math.random() * 5}s`;
-                particle.style.animationDuration = `${Math.random() * 4 + 4}s`;
-                
-                particlesContainer.appendChild(particle);
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        function renderFileList(container, files) {
+            container.innerHTML = '';
+            if (!files || files.length === 0) {
+                container.innerHTML = `<p class="text-gray-400 text-center">No versions available.</p>`;
+                return;
+            }
+            files.forEach(file => {
+                const fileElement = document.createElement('div');
+                fileElement.className = 'file-item flex items-center justify-between p-4 border border-gray-700 rounded-lg transition-all duration-300';
+                const iconHtml = `<img src="https://delta.filenetwork.vip/logo/android.png" alt="Android APK File" class="w-8 h-8 mr-4 shrink-0">`;
+                fileElement.innerHTML = `
+                    <div class="flex items-center min-w-0">
+                        ${iconHtml}
+                        <div class="truncate">
+                            <h3 class="font-semibold text-lg text-gray-100 truncate">${file.name}</h3>
+                            <p class="text-sm text-gray-400">Size: ${formatBytes(file.size)}</p>
+                            <p class="text-sm text-gray-500 mt-1">Modified: ${file.last_modified}</p>
+                        </div>
+                    </div>
+                    <a href="file/${file.name}" download class="glow-button-small inline-flex items-center justify-center bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ml-4 shrink-0">
+                        Download
+                    </a>`;
+                container.appendChild(fileElement);
+            });
+        }
+
+        async function fetchFiles() {
+            const latestApkContainer = document.getElementById('latest-apk-container');
+            try {
+                const url = new URL('get_files.php', window.location.href);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                renderFileList(latestApkContainer, data.latest_apk);
+            } catch (error) {
+                console.error("Could not fetch file list:", error);
+                const errorMessage = '<p class="text-red-400 text-center">Error loading files. Please check the server script and path.</p>';
+                latestApkContainer.innerHTML = errorMessage;
             }
         }
 
-        // 波纹效果
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.classList.add('ripple');
-                ripple.style.width = ripple.style.height = `${size}px`;
-                ripple.style.left = `${x}px`;
-                ripple.style.top = `${y}px`;
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
-        });
+        function renderAds(container, ads) {
+            if (!container) return;
+            container.innerHTML = '';
+            if (ads && Array.isArray(ads) && ads.length > 0) {
+                ads.forEach(ad => {
+                    const adElement = document.createElement('div');
+                    adElement.className = 'ad-card p-4 rounded-lg shadow-md';
+                    adElement.innerHTML = `
+                        <a href="${ad.clickout_url}" target="_blank" rel="noopener noreferrer" class="block">
+                            <img src="${ad.thumbnail_url}" alt="${ad.title}" class="w-full h-32 object-cover rounded-md mb-3" onerror="this.onerror=null;this.src='https://placehold.co/300x200/0a0a1a/9ca3af?text=Ad+Image';">
+                            <h4 class="font-bold text-md text-white">${ad.title}</h4>
+                            <p class="text-sm text-gray-400 mt-1 truncate">${ad.description}</p>
+                            <span class="block text-center mt-3 bg-blue-600 text-white text-sm font-semibold py-2 px-3 rounded-lg hover:bg-blue-700 transition-colors">${ad.call_to_action}</span>
+                        </a>`;
+                    container.appendChild(adElement);
+                });
+            } else {
+                container.innerHTML = '<p class="text-gray-400 text-center">No ads to display.</p>';
+            }
+        }
 
-        // QQ按钮跳转到资料页
-        document.getElementById('qqBtn').addEventListener('click', function() {
-            // 尝试打开QQ APP资料页（优先）
-            window.location.href = 'mqqapi://card/show_pslcard?src_type=internal&version=1&uin=391108721';
-            
-            // 备用方案：打开QZone网页版个人空间（资料页）
-            setTimeout(() => {
-                window.open('https://user.qzone.qq.com/391108721', '_blank');
-            }, 500);
-        });
+        window.handleAds = function(response) {
+            const rightContainer = document.getElementById('right-ad-container');
+            const ads = response.ads || response;
+            renderAds(rightContainer, ads);
+        };
 
-        // 初始化粒子
-        createParticles();
+        function loadAdScript(keyword, callbackName, adCount) {
+            const existingScript = document.getElementById('lv-ads');
+            if (existingScript) existingScript.remove();
+            const script = document.createElement('script');
+            script.src = 'https://integrate.linkvertise.com/serp-script.js';
+            script.async = true;
+            script.id = 'lv-ads';
+            script.setAttribute('data-integration-id', '3034');
+            script.setAttribute('data-ad-number', adCount.toString());
+            script.setAttribute('data-keyword', keyword);
+            script.setAttribute('data-jsonp', callbackName);
+            document.head.appendChild(script);
+        }
 
-        // 第二个按钮点击提示
-        document.getElementById('futureBtn').addEventListener('click', function() {
-            alert('功能开发中，敬请期待！');
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchFiles();
+            setInterval(fetchFiles, 10000);
+            loadAdScript('roblox, gaming', 'handleAds', 3);
         });
     </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"37085d92d5354d2481e2130a93ce323c","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>

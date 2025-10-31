@@ -276,6 +276,23 @@
             box-shadow: 0 8px 15px rgba(229, 62, 62, 0.4);
         }
 
+        .unban-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+
+        .unban-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(72, 187, 120, 0.4);
+        }
+
         .github-btn {
             background: linear-gradient(135deg, #24292e 0%, #1a1a1a 100%);
             color: white;
@@ -312,6 +329,8 @@
             animation: fadeIn 0.3s ease;
             max-height: 300px;
             overflow-y: auto;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .output.show {
@@ -395,6 +414,17 @@
             position: relative;
             word-break: break-all; /* 防止ASCII长字符串溢出 */
             white-space: pre-wrap;
+            max-width: 100%;
+            overflow-x: auto;
+            box-sizing: border-box;
+        }
+
+        .script-code pre {
+            margin: 0;
+            padding-right: 2.5rem; /* 为按钮留空间 */
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
         }
 
         .copy-btn {
@@ -408,6 +438,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.8rem;
+            z-index: 10;
         }
 
         .copy-btn:hover {
@@ -488,7 +519,6 @@
     <div class="container">
         <div class="user-info" id="userInfo">
             <div>IP: <span id="displayIP">加载中...</span></div>
-            <div>HWID: <span id="displayHWID">加载中...</span></div>
         </div>
         <h1 onclick="toggleAdminTrigger()">Roblox脚本生成与解析</h1>
         <div class="subtitle">黄某制作</div>
@@ -560,25 +590,22 @@
         <div id="admin" class="tab-content" style="display: none;">
             <div id="adminPanel" class="admin-panel show">
                 <h3>管理员面板</h3>
-                <button class="button" onclick="loadCurrentInfo()">加载当前 IP 和 HWID</button>
+                <button class="button" onclick="loadCurrentInfo()">加载当前 IP</button>
                 <div id="currentInfo" class="current-info" style="display: none;">
                     <p><strong>当前 IP:</strong> <span id="currentIP"></span></p>
-                    <p><strong>当前 HWID:</strong> <span id="currentHWID"></span></p>
                     <button class="ban-btn" onclick="quickBan('IP')">快速封禁当前 IP</button>
-                    <button class="ban-btn" onclick="quickBan('HWID')">快速封禁当前 HWID</button>
                 </div>
                 <div class="input-group">
                     <input type="text" id="banIP" placeholder="输入 IP 地址" />
                 </div>
-                <div class="input-group">
-                    <input type="text" id="banHWID" placeholder="输入 HWID" />
-                </div>
                 <button class="ban-btn" onclick="banItem('IP')">封禁 IP</button>
-                <button class="ban-btn" onclick="banItem('HWID')">封禁 HWID</button>
+                <div class="input-group">
+                    <input type="text" id="unbanIP" placeholder="输入要解禁的 IP 地址" />
+                </div>
+                <button class="unban-btn" onclick="unbanSpecificItem('IP')" style="display: inline-block; margin: 0.5rem;">解禁指定 IP</button>
                 <div id="bannedList" class="output">
-                    <h4>已封禁列表：</h4>
+                    <h4>已封禁 IP 列表：</h4>
                     <ul class="banned-list" id="bannedIPs"></ul>
-                    <ul class="banned-list" id="bannedHWIDs"></ul>
                 </div>
                 <h4>GitHub 上传封禁列表</h4>
                 <div class="github-inputs">
@@ -603,7 +630,7 @@
         let isAdminLoggedIn = false;
         const ADMIN_PASSWORD = 'QfEpZoeTObkVSwiLdGzRAfV';
 
-        // 优化后的加载用户IP和HWID函数
+        // 优化后的加载用户IP函数（仅IP）
         async function loadUserInfo() {
             // IP
             let ip = '无法获取';
@@ -624,20 +651,6 @@
                 }
             }
             document.getElementById('displayIP').textContent = ip;
-
-            // HWID（独立）
-            let hwid = '无法获取';
-            try {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                ctx.textBaseline = 'top';
-                ctx.font = '14px Arial';
-                ctx.fillText('HWID Test', 2, 2);
-                hwid = btoa(canvas.toDataURL()).slice(-16) + navigator.userAgent + screen.width + screen.height;
-            } catch (e) {
-                console.error('HWID 生成失败:', e);
-            }
-            document.getElementById('displayHWID').textContent = hwid;
         }
 
         loadUserInfo();
@@ -709,7 +722,7 @@
             }
         }
 
-        // 优化后的加载当前信息函数
+        // 优化后的加载当前信息函数（仅IP）
         async function loadCurrentInfo() {
             // IP
             let ip = '无法获取';
@@ -731,22 +744,8 @@
             }
             document.getElementById('currentIP').textContent = ip;
 
-            // HWID（独立）
-            let hwid = '无法获取';
-            try {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                ctx.textBaseline = 'top';
-                ctx.font = '14px Arial';
-                ctx.fillText('HWID Test', 2, 2);
-                hwid = btoa(canvas.toDataURL()).slice(-16) + navigator.userAgent + screen.width + screen.height;
-            } catch (e) {
-                console.error('当前 HWID 生成失败:', e);
-            }
-            document.getElementById('currentHWID').textContent = hwid;
-
             document.getElementById('currentInfo').style.display = 'block';
-            showAlert('当前信息加载成功！');
+            showAlert('当前 IP 加载成功！');
         }
 
         function quickBan(type) {
@@ -758,14 +757,6 @@
                 }
                 document.getElementById('banIP').value = ip;
                 banItem('IP');
-            } else {
-                const hwid = document.getElementById('currentHWID').textContent;
-                if (!hwid || hwid === '无法获取') {
-                    showAlert('请先加载当前信息');
-                    return;
-                }
-                document.getElementById('banHWID').value = hwid;
-                banItem('HWID');
             }
         }
 
@@ -786,20 +777,27 @@
                 } else {
                     showAlert('IP 已存在于封禁列表');
                 }
-            } else {
-                value = document.getElementById('banHWID').value.trim();
+            }
+        }
+
+        function unbanSpecificItem(type) {
+            let value;
+            if (type === 'IP') {
+                value = document.getElementById('unbanIP').value.trim();
                 if (!value) {
-                    showAlert('请输入 HWID');
+                    showAlert('请输入要解禁的 IP 地址');
                     return;
                 }
-                let bannedHWIDs = JSON.parse(localStorage.getItem('bannedHWIDs') || '[]');
-                if (!bannedHWIDs.includes(value)) {
-                    bannedHWIDs.push(value);
-                    localStorage.setItem('bannedHWIDs', JSON.stringify(bannedHWIDs));
-                    showAlert('HWID 已封禁');
+                let bannedIPs = JSON.parse(localStorage.getItem('bannedIPs') || '[]');
+                const index = bannedIPs.indexOf(value);
+                if (index > -1) {
+                    bannedIPs.splice(index, 1);
+                    localStorage.setItem('bannedIPs', JSON.stringify(bannedIPs));
+                    showAlert('IP 已解禁');
                     loadBannedList();
+                    document.getElementById('unbanIP').value = '';
                 } else {
-                    showAlert('HWID 已存在于封禁列表');
+                    showAlert('IP 不存在于封禁列表');
                 }
             }
         }
@@ -807,25 +805,20 @@
         function loadBannedList() {
             const bannedIPs = JSON.parse(localStorage.getItem('bannedIPs') || '[]');
             const ipsList = document.getElementById('bannedIPs');
-            ipsList.innerHTML = bannedIPs.map(ip => `<li>${ip} <button class="ban-btn" onclick="unbanItem('IP', '${ip.replace(/'/g, "\\'")}')">解禁</button></li>`).join('');
-
-            const bannedHWIDs = JSON.parse(localStorage.getItem('bannedHWIDs') || '[]');
-            const hwidsList = document.getElementById('bannedHWIDs');
-            hwidsList.innerHTML = bannedHWIDs.map(hwid => `<li>${hwid} <button class="ban-btn" onclick="unbanItem('HWID', '${hwid.replace(/'/g, "\\'")}')">解禁</button></li>`).join('');
+            ipsList.innerHTML = bannedIPs.map(ip => `<li>${ip} <button class="unban-btn" onclick="unbanItem('IP', '${ip.replace(/'/g, "\\'")}')">解禁</button></li>`).join('');
         }
 
         function unbanItem(type, value) {
             if (type === 'IP') {
                 let bannedIPs = JSON.parse(localStorage.getItem('bannedIPs') || '[]');
-                bannedIPs = bannedIPs.filter(ip => ip !== value);
-                localStorage.setItem('bannedIPs', JSON.stringify(bannedIPs));
-            } else {
-                let bannedHWIDs = JSON.parse(localStorage.getItem('bannedHWIDs') || '[]');
-                bannedHWIDs = bannedHWIDs.filter(hwid => hwid !== value);
-                localStorage.setItem('bannedHWIDs', JSON.stringify(bannedHWIDs));
+                const index = bannedIPs.indexOf(value);
+                if (index > -1) {
+                    bannedIPs.splice(index, 1);
+                    localStorage.setItem('bannedIPs', JSON.stringify(bannedIPs));
+                    showAlert('IP 已解禁');
+                }
             }
             loadBannedList();
-            showAlert('已解禁');
         }
 
         async function uploadToGitHub() {
@@ -841,10 +834,8 @@
             }
 
             const bannedIPs = JSON.parse(localStorage.getItem('bannedIPs') || '[]');
-            const bannedHWIDs = JSON.parse(localStorage.getItem('bannedHWIDs') || '[]');
             const content = {
-                ips: bannedIPs,
-                hwids: bannedHWIDs
+                ips: bannedIPs
             };
             const base64Content = btoa(JSON.stringify(content, null, 2));
 
@@ -1193,4 +1184,4 @@
         });
     </script>
 </body>
-    </html>
+</html>

@@ -603,25 +603,41 @@
         let isAdminLoggedIn = false;
         const ADMIN_PASSWORD = 'QfEpZoeTObkVSwiLdGzRAfV';
 
-        // 加载用户IP和HWID
+        // 优化后的加载用户IP和HWID函数
         async function loadUserInfo() {
+            // IP
+            let ip = '无法获取';
             try {
                 const ipRes = await fetch('https://api.ipify.org?format=json');
+                if (!ipRes.ok) throw new Error(`HTTP ${ipRes.status}`);
                 const ipData = await ipRes.json();
-                document.getElementById('displayIP').textContent = ipData.ip;
+                ip = ipData.ip;
+            } catch (e) {
+                console.error('IP 获取失败:', e);
+                // 备选：用 httpbin
+                try {
+                    const altRes = await fetch('https://httpbin.org/ip');
+                    const altData = await altRes.json();
+                    ip = altData.origin;
+                } catch (altE) {
+                    console.error('备选 IP 也失败:', altE);
+                }
+            }
+            document.getElementById('displayIP').textContent = ip;
 
-                // 生成HWID
+            // HWID（独立）
+            let hwid = '无法获取';
+            try {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 ctx.textBaseline = 'top';
                 ctx.font = '14px Arial';
                 ctx.fillText('HWID Test', 2, 2);
-                const hwid = btoa(canvas.toDataURL()).slice(-16) + navigator.userAgent + screen.width + screen.height;
-                document.getElementById('displayHWID').textContent = hwid;
+                hwid = btoa(canvas.toDataURL()).slice(-16) + navigator.userAgent + screen.width + screen.height;
             } catch (e) {
-                document.getElementById('displayIP').textContent = '无法获取';
-                document.getElementById('displayHWID').textContent = '无法获取';
+                console.error('HWID 生成失败:', e);
             }
+            document.getElementById('displayHWID').textContent = hwid;
         }
 
         loadUserInfo();
@@ -693,28 +709,44 @@
             }
         }
 
-        // 其余函数保持不变...
+        // 优化后的加载当前信息函数
         async function loadCurrentInfo() {
+            // IP
+            let ip = '无法获取';
             try {
-                // 获取 IP
                 const ipRes = await fetch('https://api.ipify.org?format=json');
+                if (!ipRes.ok) throw new Error(`HTTP ${ipRes.status}`);
                 const ipData = await ipRes.json();
-                document.getElementById('currentIP').textContent = ipData.ip;
+                ip = ipData.ip;
+            } catch (e) {
+                console.error('当前 IP 获取失败:', e);
+                // 备选：用 httpbin
+                try {
+                    const altRes = await fetch('https://httpbin.org/ip');
+                    const altData = await altRes.json();
+                    ip = altData.origin;
+                } catch (altE) {
+                    console.error('备选 IP 也失败:', altE);
+                }
+            }
+            document.getElementById('currentIP').textContent = ip;
 
-                // 生成简单 HWID (浏览器指纹)
+            // HWID（独立）
+            let hwid = '无法获取';
+            try {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 ctx.textBaseline = 'top';
                 ctx.font = '14px Arial';
                 ctx.fillText('HWID Test', 2, 2);
-                const hwid = btoa(canvas.toDataURL()).slice(-16) + navigator.userAgent + screen.width + screen.height;
-                document.getElementById('currentHWID').textContent = hwid;
-
-                document.getElementById('currentInfo').style.display = 'block';
-                showAlert('当前信息加载成功！');
+                hwid = btoa(canvas.toDataURL()).slice(-16) + navigator.userAgent + screen.width + screen.height;
             } catch (e) {
-                showAlert('加载当前信息失败: ' + e.message);
+                console.error('当前 HWID 生成失败:', e);
             }
+            document.getElementById('currentHWID').textContent = hwid;
+
+            document.getElementById('currentInfo').style.display = 'block';
+            showAlert('当前信息加载成功！');
         }
 
         function quickBan(type) {
@@ -1161,4 +1193,4 @@
         });
     </script>
 </body>
-</html>
+    </html>

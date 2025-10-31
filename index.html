@@ -33,6 +33,19 @@
             overflow-y: auto;
             backdrop-filter: blur(10px);
             animation: fadeInUp 0.6s ease-out;
+            position: relative;
+        }
+
+        .user-info {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            text-align: right;
+            color: #4a5568;
         }
 
         @keyframes fadeInUp {
@@ -50,12 +63,51 @@
             margin-bottom: 0.5rem;
             color: #4a5568;
             font-size: 2rem;
+            cursor: pointer;
+        }
+
+        h1:hover {
+            color: #667eea;
         }
 
         .subtitle {
             color: #718096;
             font-size: 1rem;
             margin-bottom: 1.5rem;
+        }
+
+        .admin-trigger {
+            display: none;
+            margin: 1rem auto;
+            padding: 0.5rem 1rem;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .admin-trigger.show {
+            display: block;
+        }
+
+        .admin-login-hidden {
+            display: none;
+            margin: 1rem 0;
+        }
+
+        .admin-login-hidden input {
+            width: 200px;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .admin-login-hidden button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
         }
 
         .tabs {
@@ -83,6 +135,10 @@
         .tab.active {
             background: #667eea;
             color: white;
+        }
+
+        .tab.hidden {
+            display: none;
         }
 
         .tab-content {
@@ -422,18 +478,30 @@
         .github-inputs input {
             max-width: 300px;
         }
+
+        .tabs.admin-mode .tab:not([data-tab="admin"]) {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Roblox脚本生成与解析</h1>
+        <div class="user-info" id="userInfo">
+            <div>IP: <span id="displayIP">加载中...</span></div>
+            <div>HWID: <span id="displayHWID">加载中...</span></div>
+        </div>
+        <h1 onclick="toggleAdminTrigger()">Roblox脚本生成与解析</h1>
         <div class="subtitle">黄某制作</div>
+        <div class="admin-trigger" id="adminTrigger" onclick="showHiddenLogin()">管理员登录</div>
+        <div class="admin-login-hidden" id="hiddenLogin">
+            <input type="password" id="adminPassword" placeholder="输入管理员密码" />
+            <button onclick="loginAdmin()">登录</button>
+        </div>
 
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('raw')">Raw URL 解析</button>
-            <button class="tab" onclick="switchTab('ascii')">ASCII 编码转换</button>
-            <button class="tab" onclick="switchTab('injectors')">注入器下载</button>
-            <button class="tab" onclick="switchTab('admin')">管理员</button>
+        <div class="tabs" id="tabs">
+            <button class="tab active" data-tab="raw" onclick="switchTab('raw')">Raw URL 解析</button>
+            <button class="tab" data-tab="ascii" onclick="switchTab('ascii')">ASCII 编码转换</button>
+            <button class="tab" data-tab="injectors" onclick="switchTab('injectors')">注入器下载</button>
         </div>
 
         <!-- Raw URL Tab -->
@@ -488,13 +556,9 @@
             </ul>
         </div>
 
-        <!-- Admin Tab -->
-        <div id="admin" class="tab-content">
-            <div class="admin-login">
-                <input type="password" id="adminPassword" placeholder="输入管理员密码" />
-                <button class="button" onclick="loginAdmin()">登录</button>
-            </div>
-            <div id="adminPanel" class="admin-panel">
+        <!-- Admin Tab (initially hidden) -->
+        <div id="admin" class="tab-content" style="display: none;">
+            <div id="adminPanel" class="admin-panel show">
                 <h3>管理员面板</h3>
                 <button class="button" onclick="loadCurrentInfo()">加载当前 IP 和 HWID</button>
                 <div id="currentInfo" class="current-info" style="display: none;">
@@ -536,9 +600,79 @@
         let branches = [];
         let files = [];
         let currentRepo = '';
+        let isAdminLoggedIn = false;
         const ADMIN_PASSWORD = 'QfEpZoeTObkVSwiLdGzRAfV';
 
+        // 加载用户IP和HWID
+        async function loadUserInfo() {
+            try {
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                document.getElementById('displayIP').textContent = ipData.ip;
+
+                // 生成HWID
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                ctx.textBaseline = 'top';
+                ctx.font = '14px Arial';
+                ctx.fillText('HWID Test', 2, 2);
+                const hwid = btoa(canvas.toDataURL()).slice(-16) + navigator.userAgent + screen.width + screen.height;
+                document.getElementById('displayHWID').textContent = hwid;
+            } catch (e) {
+                document.getElementById('displayIP').textContent = '无法获取';
+                document.getElementById('displayHWID').textContent = '无法获取';
+            }
+        }
+
+        loadUserInfo();
+
+        function toggleAdminTrigger() {
+            const trigger = document.getElementById('adminTrigger');
+            if (trigger.classList.contains('show')) {
+                trigger.classList.remove('show');
+                document.getElementById('hiddenLogin').style.display = 'none';
+            } else {
+                trigger.classList.add('show');
+            }
+        }
+
+        function showHiddenLogin() {
+            document.getElementById('hiddenLogin').style.display = 'block';
+            document.getElementById('adminPassword').focus();
+        }
+
+        function loginAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                // 隐藏触发器和登录框
+                document.getElementById('adminTrigger').style.display = 'none';
+                document.getElementById('hiddenLogin').style.display = 'none';
+                // 显示管理员tab内容并隐藏其他tabs
+                document.getElementById('admin').style.display = 'block';
+                document.getElementById('tabs').classList.add('admin-mode');
+                switchTab('admin');
+                loadBannedList();
+                showAlert('登录成功！');
+            } else {
+                showAlert('密码错误！');
+            }
+        }
+
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin').style.display = 'none';
+            document.getElementById('tabs').classList.remove('admin-mode');
+            document.getElementById('adminTrigger').classList.remove('show');
+            document.getElementById('hiddenLogin').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+            switchTab('raw'); // 返回默认tab
+            document.getElementById('currentInfo').style.display = 'none';
+        }
+
         function switchTab(tabName) {
+            if (isAdminLoggedIn && tabName !== 'admin') return; // 管理员模式下只允许admin tab
+
             // 移除所有 tab-content 的 active 类，确保只显示选中的
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
@@ -553,28 +687,13 @@
                 selectedContent.classList.add('active');
             }
             // 添加选中 tab 的 active 类
-            event.target.classList.add('active');
-        }
-
-        function loginAdmin() {
-            const password = document.getElementById('adminPassword').value;
-            if (password === ADMIN_PASSWORD) {
-                document.getElementById('adminPanel').classList.add('show');
-                document.querySelector('.admin-login').style.display = 'none';
-                loadBannedList();
-                showAlert('登录成功！');
-            } else {
-                showAlert('密码错误！');
+            const selectedTab = document.querySelector(`[data-tab="${tabName}"]`);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
             }
         }
 
-        function logoutAdmin() {
-            document.getElementById('adminPanel').classList.remove('show');
-            document.querySelector('.admin-login').style.display = 'block';
-            document.getElementById('adminPassword').value = '';
-            document.getElementById('currentInfo').style.display = 'none';
-        }
-
+        // 其余函数保持不变...
         async function loadCurrentInfo() {
             try {
                 // 获取 IP
@@ -601,7 +720,7 @@
         function quickBan(type) {
             if (type === 'IP') {
                 const ip = document.getElementById('currentIP').textContent;
-                if (!ip) {
+                if (!ip || ip === '无法获取') {
                     showAlert('请先加载当前信息');
                     return;
                 }
@@ -609,7 +728,7 @@
                 banItem('IP');
             } else {
                 const hwid = document.getElementById('currentHWID').textContent;
-                if (!hwid) {
+                if (!hwid || hwid === '无法获取') {
                     showAlert('请先加载当前信息');
                     return;
                 }
@@ -656,11 +775,11 @@
         function loadBannedList() {
             const bannedIPs = JSON.parse(localStorage.getItem('bannedIPs') || '[]');
             const ipsList = document.getElementById('bannedIPs');
-            ipsList.innerHTML = bannedIPs.map(ip => `<li>${ip} <button class="ban-btn" onclick="unbanItem('IP', '${ip}')">解禁</button></li>`).join('');
+            ipsList.innerHTML = bannedIPs.map(ip => `<li>${ip} <button class="ban-btn" onclick="unbanItem('IP', '${ip.replace(/'/g, "\\'")}')">解禁</button></li>`).join('');
 
             const bannedHWIDs = JSON.parse(localStorage.getItem('bannedHWIDs') || '[]');
             const hwidsList = document.getElementById('bannedHWIDs');
-            hwidsList.innerHTML = bannedHWIDs.map(hwid => `<li>${hwid} <button class="ban-btn" onclick="unbanItem('HWID', '${hwid}')">解禁</button></li>`).join('');
+            hwidsList.innerHTML = bannedHWIDs.map(hwid => `<li>${hwid} <button class="ban-btn" onclick="unbanItem('HWID', '${hwid.replace(/'/g, "\\'")}')">解禁</button></li>`).join('');
         }
 
         function unbanItem(type, value) {
@@ -1042,4 +1161,4 @@
         });
     </script>
 </body>
-    </html>
+</html>

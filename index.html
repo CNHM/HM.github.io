@@ -350,10 +350,10 @@
         <!-- Raw URL Tab -->
         <div id="raw" class="tab-content active">
             <div class="input-group">
-                <input type="url" id="rawUrl" placeholder="输入GitHub Raw URL />
+                <input type="url" id="rawUrl" placeholder="输入 GitHub Raw URL" />
                 <div class="example">示例：https://raw.githubusercontent.com/用户名字/仓库/refs/heads/main/文件名</div>
             </div>
-            <button class="button" onclick="parseRawUrl()">解析URL</button>
+            <button class="button" onclick="parseRawUrl()">解析 URL</button>
             <div id="rawOutput" class="output"></div>
             <div id="confirmUi" class="confirm-ui"></div>
         </div>
@@ -361,7 +361,7 @@
         <!-- ASCII Tab -->
         <div id="ascii" class="tab-content">
             <div class="input-group">
-                <textarea id="asciiInput" placeholder="输入ASCII编码的URL,原URL或 loadstring(game:HttpGet('URL'))()"></textarea>
+                <textarea id="asciiInput" placeholder="输入 ASCII 编码的 URL, 原 URL 或 loadstring(game:HttpGet('URL'))()"></textarea>
                 <div class="example">支持 ASCII 编码解析、原 URL 转 ASCII 或带 loadstring 的脚本解析</div>
             </div>
             <button class="button" onclick="handleAscii()">转换/解析</button>
@@ -408,9 +408,20 @@
         let currentRepo = '';
 
         function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
+            // 移除所有 tab-content 的 active 类，确保只显示选中的
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // 移除所有 tab 的 active 类
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // 添加选中 tab-content 的 active 类
+            const selectedContent = document.getElementById(tabName);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
+            // 添加选中 tab 的 active 类
             event.target.classList.add('active');
         }
 

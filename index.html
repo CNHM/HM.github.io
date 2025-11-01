@@ -543,6 +543,7 @@
         <div class="tabs" id="tabs">
             <button class="tab active" data-tab="raw" onclick="switchTab('raw')">Raw URL 解析</button>
             <button class="tab" data-tab="ascii" onclick="switchTab('ascii')">ASCII 编码转换</button>
+            <button class="tab" data-tab="ninja" onclick="switchTab('ninja')">忍者卡密自动获取</button>
             <button class="tab" data-tab="injectors" onclick="switchTab('injectors')">注入器下载</button>
         </div>
 
@@ -565,6 +566,16 @@
             </div>
             <button class="button" onclick="handleAscii()">转换/解析</button>
             <div id="asciiOutput" class="output"></div>
+        </div>
+
+        <!-- Ninja Key Tab -->
+        <div id="ninja" class="tab-content">
+            <div class="input-group">
+                <input type="url" id="ninjaUrl" placeholder="输入忍者卡密 URL" />
+                <div class="example">示例：https://auth.platoboost.app/a?d=1xqbuwmPGUfK4EvYVOARcsfwaYbaD2EaplEuUKYkzBeg85dOTkQ7oKdOEGMJCFzlSIrGYpPSS6z1Pjmyy5wL61NQItJrQ4wdQgcvVa8NyRd2KkQohzWHeRc3AL15Pghqi6qWLpYiTEWpidk5ACAP2PzY90aJ7qCNbUcb7mtFNNtobF07c3tL7PTWvwezhlC9Mb5WJYhYx6NX5EuXG9Zy1saZu7Gd7RCcQuW9tV1e381JnOIO95f2rJeu3xVjuYh7G5ZncOOsSSszukmfIhRMOlNHfY1ht7YyfD2qlFgaB58Y9SeOtUU0sMJ8EXwNRkahMi2YmeiDThtlRmIvYOMY81TXp6QwGKS7jybwNIqRyfbnvoZHDkOC8ezWogec6nJ2NkGRGkzfO65N6eTaTeKhMpyKN5UdfzfQoFZdQzeoYdMBwUBGyNj0YmfVQRnH5mVCTXWBR0GZ43Tdmf78Zwj</div>
+            </div>
+            <button class="button" onclick="getNinjaKey()">自动获取密钥</button>
+            <div id="ninjaOutput" class="output"></div>
         </div>
 
         <!-- Injectors Tab -->
@@ -895,6 +906,39 @@
             }
         }
 
+        async function getNinjaKey() {
+            const url = document.getElementById('ninjaUrl').value.trim();
+            const output = document.getElementById('ninjaOutput');
+            if (!url) {
+                showAlert('请输入有效的 URL');
+                return;
+            }
+            output.innerHTML = '<div class="loading">正在获取密钥...</div>';
+            output.classList.add('show');
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const html = await res.text();
+                // 提取 FREE_ 开头的约20位密钥
+                const keyMatch = html.match(/FREE_[A-Z0-9]{20}/);
+                if (keyMatch) {
+                    const key = keyMatch[0];
+                    output.innerHTML = `
+                        <h3>获取成功！</h3>
+                        <div class="script-code">
+                            <button class="copy-btn" onclick="copyToClipboard('${escapeForHtml(key)}')">复制密钥</button>
+                            <pre>${escapeForHtml(key)}</pre>
+                        </div>
+                    `;
+                } else {
+                    output.innerHTML = '<p>你未完成解卡，请解卡完后再来输入</p>';
+                }
+            } catch (e) {
+                output.innerHTML = '<p>获取失败: ' + e.message + '</p>';
+                showAlert('获取密钥失败，请检查URL或网络');
+            }
+        }
+
         function jumpTo(url) {
             window.open(url, '_blank');
         }
@@ -1189,6 +1233,12 @@
             }
         });
 
+        document.getElementById('ninjaUrl').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                getNinjaKey();
+            }
+        });
+
         document.getElementById('adminPassword').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 loginAdmin();
@@ -1196,4 +1246,4 @@
         });
     </script>
 </body>
-                        </html>
+</html>
